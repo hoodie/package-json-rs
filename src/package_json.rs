@@ -6,7 +6,7 @@ use url::Url;
 
 use std::collections::HashMap;
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct PackageJson {
     pub name:         Option<String>,
     pub version:      Option<Version>,
@@ -38,14 +38,14 @@ pub struct PackageJson {
 
 pub type Dependencies = HashMap<String, VersionRequirement>;
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum VersionRequirement {
     VersionReq(VersionReq),
     Other(String),
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum Repository {
     Url(Url),
@@ -53,33 +53,33 @@ pub enum Repository {
     Structured(StructuredRepository),
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct StructuredRepository {
     #[serde(rename = "type")] typ: Option<String>,
     url: Option<Url>,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum Bin {
     One(String),
     Many(HashMap<String, String>),
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Bugs {
     email: Option<String>,
     url:   Option<Url>,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum Man {
     One(String),
     Many(Vec<String>),
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum Person {
     Name(String),
@@ -90,7 +90,7 @@ pub enum Person {
     },
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum License {
     Type(String),
