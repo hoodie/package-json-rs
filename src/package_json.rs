@@ -1,10 +1,13 @@
 //! more at https://docs.npmjs.com/files/package.json
 
-use semver::{Version, VersionReq};
+use semver::Version;
 use serde_json;
 use url::Url;
 
 use std::collections::HashMap;
+use std::path::PathBuf;
+
+use version_requirement::VersionRequirement;
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct PackageJson {
@@ -27,7 +30,7 @@ pub struct PackageJson {
     pub files:        Option<Vec<String>>,
     pub repository:   Option<Repository>,
     pub scripts:      Option<HashMap<String, String>>,
-    pub workspaces:   Option<Vec<String>>,
+    pub workspaces:   Option<Vec<PathBuf>>,
 
     pub dependencies: Option<Dependencies>,
 
@@ -37,13 +40,6 @@ pub struct PackageJson {
 }
 
 pub type Dependencies = HashMap<String, VersionRequirement>;
-
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum VersionRequirement {
-    VersionReq(VersionReq),
-    Other(String),
-}
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -69,7 +65,7 @@ pub enum Bin {
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Bugs {
     email: Option<String>,
-    url:   Option<Url>,
+    url: Option<Url>,
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
