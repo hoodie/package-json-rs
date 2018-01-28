@@ -95,3 +95,18 @@ pub enum License {
         url: Option<String>,
     },
 }
+
+use std::iter::Iterator;
+
+impl PackageJson {
+    // Produces a list of all dependencies including dev and peer dependencies
+    pub fn all_dependencies<'a>(&'a self) -> impl Iterator<Item = (&'a String, &'a VersionRequirement)> {
+        let dependencies = self.dependencies.iter().flat_map(|deps| deps);
+        let dev_dependencies = self.dev_dependencies.iter().flat_map(|deps| deps);
+        let peer_dependencies = self.peer_dependencies.iter().flat_map(|deps| deps);
+
+        dependencies
+            .chain(dev_dependencies)
+            .chain(peer_dependencies)
+    }
+}

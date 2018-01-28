@@ -1,5 +1,5 @@
 //! more at https://docs.npmjs.com/files/package.json
-
+#![feature(conservative_impl_trait)]
 extern crate semver;
 extern crate serde;
 #[macro_use]
