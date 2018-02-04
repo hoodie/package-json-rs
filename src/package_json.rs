@@ -34,9 +34,21 @@ pub struct PackageJson {
 
     pub dependencies: Option<Dependencies>,
 
-    #[serde(rename = "peerDependencies")] pub peer_dependencies: Option<Dependencies>,
+    #[serde(rename = "peerDependencies")]
+    pub peer_dependencies: Option<Dependencies>,
 
-    #[serde(rename = "devDependencies")] pub dev_dependencies: Option<Dependencies>,
+    #[serde(rename = "devDependencies")]
+    pub dev_dependencies: Option<Dependencies>,
+
+    #[serde(skip_serializing, skip_deserializing)]
+    #[doc(hidden)]
+    pub __path: Option<PathBuf>,
+}
+
+impl PackageJson {
+    pub fn path(&self) -> Option<&PathBuf> {
+        self.__path.as_ref()
+    }
 }
 
 pub type Dependencies = HashMap<String, VersionRequirement>;
@@ -51,7 +63,8 @@ pub enum Repository {
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct StructuredRepository {
-    #[serde(rename = "type")] typ: Option<String>,
+    #[serde(rename = "type")]
+    typ: Option<String>,
     url: Option<Url>,
 }
 
@@ -65,7 +78,7 @@ pub enum Bin {
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Bugs {
     email: Option<String>,
-    url: Option<Url>,
+    url:   Option<Url>,
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
@@ -80,7 +93,8 @@ pub enum Man {
 pub enum Person {
     Name(String),
     Person {
-        #[serde(rename = "type")] name: Option<String>,
+        #[serde(rename = "type")]
+        name: Option<String>,
         email: Option<String>,
         url: Option<Url>,
     },
@@ -91,7 +105,8 @@ pub enum Person {
 pub enum License {
     Type(String),
     License {
-        #[serde(rename = "type")] typ: Option<String>,
+        #[serde(rename = "type")]
+        typ: Option<String>,
         url: Option<String>,
     },
 }
